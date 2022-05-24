@@ -10,6 +10,8 @@ import { MasterService } from 'src/app/services/master.service';
 })
 export class DashboardComponent implements OnInit {
   
+  itemName: string;
+  itemDescription: string;
   listItems: Array<any> = []
 
   constructor(private masterService: MasterService, private toastrService: ToastrService) { }
@@ -41,6 +43,8 @@ export class DashboardComponent implements OnInit {
       description: itemDescription,
       completed: false
     });
+    this.itemName = null;
+    this.itemDescription = null;
     this.toastrService.success('Task added successfully');
   }
 

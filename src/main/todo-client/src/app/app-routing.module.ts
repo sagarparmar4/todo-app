@@ -7,7 +7,7 @@ import { LoginPageComponent } from './components/login-page/login-page.component
 const routes: Routes = [
   { path: 'home', component: LoginPageComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: '**', redirectTo: '/home' }
+  { path: '**', redirectTo: 'home' }
 ];
 
 @NgModule({
