@@ -1,0 +1,82 @@
+<div class="d-flex justify-content-around m-5">
+    <div class="card w-50">
+        <div class="card-body">
+            <!-- Sign out -->
+            <!-- <div class="float-right">
+                <button type="button" class="btn btn-outline-dark btn-sm">Sign Out</button>
+            </div> -->
+            <h4 class="m-3 font-weight-normal">My Todo List</h4>
+            <!-- Add task -->
+            <form class="form p-2" #itemForm="ngForm">
+                <div class="form-row">
+                    <div class="col-8 mb-2">
+                        <div class="mx-2">
+                            <input type="text" class="form-control" name="itemName" placeholder="Task Name" required [(ngModel)]="itemName">
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <button type="submit" class="btn btn-primary btn-block mb-2" (click)="addItem(itemName, itemDescription)">Add</button>
+                    </div>
+                    <div class="col-2">
+                        <button type="submit" class="btn btn btn-secondary btn-block mb-2" (click)="saveList()">Save</button>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-8">
+                        <div class="mx-2">
+                            <textarea class="form-control" name="itemDescription" placeholder="Task Description" required [(ngModel)]="itemDescription"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            
+            <!-- Show List of fetched tasks -->
+            <ul class="list-group mx-3" *ngIf="listItems.length === 0">
+                <li class="list-group-item" *ngIf="listItems.length === 0">
+                    <div class="d-flex bd-highlight">
+                        <div class="flex-grow-1 bd-highlight">
+                            <p>No tasks present.</p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+            <ul class="list-group mx-3" *ngIf="listItems.length != 0">
+                <li class="list-group-item" *ngFor="let item of listItems; let itemIndex = index">
+                    <div class="d-flex bd-highlight">
+                        <div class="flex-grow-1 bd-highlight" [ngClass]="{'strikethrough': item.completed}">
+                            <p class="mb-0">
+                                {{ (itemIndex + 1) + '. ' + item.name }}
+                            </p>
+                            <p class="mb-0">
+                                <small class="mb-1" *ngIf="item.createdDate">
+                                    Created Date: {{ item.createdDate | date }}
+                                </small>
+                            </p>
+                            <p class="mb-0">
+                                <small class="mb-1" *ngIf="item.lastModifiedDate">
+                                    Last Modified Date: {{ item.lastModifiedDate | date }}
+                                </small>
+                            </p>
+                            <p class="mb-0">
+                                <small class="mb-1" *ngIf="item.description">
+                                    Description: {{ item.description }}
+                                </small>
+                            </p>
+                        </div>
+                        <div class="bd-highlight">
+                            <button type="button" class="btn btn-success btn-sm" (click)="toggleStatus(itemIndex)">
+                                {{ item.completed ? 'Uncheck' : 'Check'}}
+                            </button>
+                        </div>
+                        <div class="bd-highlight ml-2">
+                            <button type="button" class="btn btn-danger btn-sm" (click)="removeItem(itemIndex)">
+                                Remove
+                            </button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

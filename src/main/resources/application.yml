@@ -1,0 +1,2 @@
+server:  port: 8080  servlet:    context-path: /  error:    whitelabel:      enabled: false
+spring:  profiles:    active:    - dev  aop:    proxy-target-class: true
