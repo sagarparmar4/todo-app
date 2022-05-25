@@ -25,4 +25,5 @@ export class MasterService {
   saveToDoList(data: Array<any>): Observable<any> {
     return this.http.post('/saveToDoList', data);
   }
+
 }

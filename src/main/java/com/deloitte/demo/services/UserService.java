@@ -1,11 +1,14 @@
 package com.deloitte.demo.services;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -39,7 +42,25 @@ public class UserService {
 	 * @return User
 	 */
 	public User getUserByUsername(String username) {
-		return userRepository.findByUsername(username).orElse(null);
+		return this.getUserByUsername(username, true);
+	}
+
+	/**
+	 * Fetch user based on username. Optionally return {@code null} if user is not
+	 * present
+	 * 
+	 * @param username
+	 * @return User
+	 */
+	public User getUserByUsername(String username, boolean returnNull) {
+		Optional<User> optionalUser = userRepository.findByUsername(username);
+		if (optionalUser.isPresent()) {
+			return optionalUser.get();
+		}
+		if (returnNull) {
+			return null;
+		}
+		throw new UsernameNotFoundException("User with username '" + username + "' not found");
 	}
 
 	/**

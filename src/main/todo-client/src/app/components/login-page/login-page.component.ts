@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { SecurityService } from 'src/app/services/security/security.service';
 
 @Component({
   selector: 'app-login-page',
@@ -8,18 +9,20 @@ import { Router } from '@angular/router';
 })
 export class LoginPageComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  @ViewChild('signinForm', { static: false })
+  signinForm: NgForm;
+
+  constructor(private securityService: SecurityService) { }
 
   ngOnInit() {
   }
 
   /**
    * Validate user details and rediect user to dashboard
-   * 
-   * TODO: Add logic for user authorization
    */
   validateUser() {
-    this.router.navigate(['dashboard']);
+    this.securityService.updateCredentials(this.signinForm.value.username, this.signinForm.value.password);
+    this.securityService.validateUser();
   }
 
 }

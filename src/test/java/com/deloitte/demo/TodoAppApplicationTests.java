@@ -1,6 +1,7 @@
 package com.deloitte.demo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -21,8 +22,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.deloitte.demo.entities.ToDoItem;
+import com.deloitte.demo.services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 
@@ -39,9 +42,32 @@ class TodoAppApplicationTests {
 	@Autowired
 	private TestRestTemplate template;
 
+	@Autowired
+	private UserService userService;
+
 	@Test
 	@Order(1)
 	void contextLoads() {
+	}
+
+	/**
+	 * Validate that method throws exception for invalid user login
+	 * 
+	 * @throws IOException
+	 */
+	@Test
+	@Order(2)
+	public void invalidLogin() throws IOException {
+		// Fetch response
+		String username = "dummyUser";
+		UsernameNotFoundException exception = assertThrows(UsernameNotFoundException.class,
+				() -> userService.getUserByUsername(username, false),
+				"Expected exception of class: " + UsernameNotFoundException.class.getName());
+
+		// Validate exception message
+		String exceptionMessage = "User with username '" + username + "' not found";
+		assertTrue((exception.getMessage() != null && exception.getMessage().equalsIgnoreCase(exceptionMessage)),
+				"Invalid exception message");
 	}
 
 	/**
@@ -51,7 +77,7 @@ class TodoAppApplicationTests {
 	 * @throws IOException
 	 */
 	@Test
-	@Order(2)
+	@Order(3)
 	public void fetchAndCheckMasterData() throws IOException {
 		// Fetch response
 		ResponseEntity<String> result = template.withBasicAuth("user", "pass@123").getForEntity("/getToDoList",
@@ -77,7 +103,7 @@ class TodoAppApplicationTests {
 	 * @throws IOException
 	 */
 	@Test
-	@Order(3)
+	@Order(4)
 	public void updateToDoList() throws IOException {
 		List<ToDoItem> toDoList = new ArrayList<>();
 		toDoList.add(new ToDoItem("Task A", "Task Description A", true));

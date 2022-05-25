@@ -44,4 +44,14 @@ public class UserController {
 		return userService.getUserByUsername(username);
 	}
 
+	/**
+	 * Get logged-in user
+	 * 
+	 * @return User
+	 */
+	@GetMapping("/getLoggedinUser")
+	public User getLoggedinUser() {
+		return userService.getLoggedInUser();
+	}
+
 }

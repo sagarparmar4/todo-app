@@ -47,10 +47,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		// @formatter:off
 		HttpBasicConfigurer<HttpSecurity> httpBasicConfigurer = http
 				.authorizeRequests()
-				.antMatchers("/public").permitAll()
-				.antMatchers("/h2-console/**").permitAll()
-				.anyRequest().authenticated()
-				.and().httpBasic();
+					.antMatchers("/public/**").permitAll()
+					.antMatchers("/h2-console/**").permitAll()
+					.anyRequest().authenticated()
+					.and()
+				.httpBasic();
 		// @formatter:on
 
 		// Disable CSRF for DEV environments

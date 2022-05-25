@@ -1,7 +1,7 @@
-import { isNgTemplate } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { MasterService } from 'src/app/services/master.service';
+import { SecurityService } from 'src/app/services/security/security.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,14 +14,18 @@ export class DashboardComponent implements OnInit {
   itemDescription: string;
   listItems: Array<any> = []
 
-  constructor(private masterService: MasterService, private toastrService: ToastrService) { }
+  constructor(
+    private masterService: MasterService, 
+    private securityService: SecurityService, 
+    private toastrService: ToastrService
+  ) { }
   
   ngOnInit() {
     // Fetch saved ToDo items against loggedin user
     this.masterService.getToDoList().subscribe((res) => {
       this.listItems = res;
       this.toastrService.success('List fetched successfully');
-    }, err => this.toastrService.error(err.message));
+    }, err => this.toastrService.error(err.message ? err.message : err));
   }
   
   /**
@@ -64,7 +68,15 @@ export class DashboardComponent implements OnInit {
     this.masterService.saveToDoList(this.listItems).subscribe((res) => {
       this.listItems = res;
       this.toastrService.success('List fetched successfully');
-    }, err => this.toastrService.error(err.message));
-  }    
+    }, err => this.toastrService.error(err.message ? err.message : err));
+  }
+
+  /**
+   * Log out from server
+   */
+  logout() {
+    this.securityService.logout();
+  }
+
   
 }
