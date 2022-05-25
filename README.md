@@ -12,9 +12,6 @@ Technology Stack
 * RxJS
 * H2 Database
 
-Default Credentails (HTTP Form)
-* _Yet to be implemented_
-
-Default Credentails (Basic Authentication)
+Default Credentails
 * Username: user
 * Passoerd: pass@123
