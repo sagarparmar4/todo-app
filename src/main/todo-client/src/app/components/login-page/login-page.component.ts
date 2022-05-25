@@ -12,6 +12,9 @@ export class LoginPageComponent implements OnInit {
   @ViewChild('signinForm', { static: false })
   signinForm: NgForm;
 
+  username: string = null;
+  password: string = null;
+
   constructor(private securityService: SecurityService) { }
 
   ngOnInit() {
